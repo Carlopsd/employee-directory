@@ -46,6 +46,10 @@ Run `npm run dev` and `npm run mock` simultaneously for full local development.
 - Use React Hook Form + Zod for ALL forms
 - Shared components go in `src/shared/components/`
 
+## Documentation Lookup
+
+- Always use context7 to check up-to-date docs when implementing or modifying code that uses RTK Query, React Hook Form, Zod, TanStack Table, or any third-party library
+
 ## Mock API
 
 - JSON Server running on `http://localhost:3001`
