@@ -16,6 +16,14 @@ export const employeesApi = createApi({
             ]
           : [{ type: "Employee", id: "LIST" }],
     }),
+    addEmployee: builder.mutation<Employee, Omit<Employee, "id">>({
+      query: (body) => ({
+        url: "/employees",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "Employee", id: "LIST" }],
+    }),
     getDepartments: builder.query<Department[], void>({
       query: () => "/departments",
       providesTags: [{ type: "Department", id: "LIST" }],
@@ -23,4 +31,8 @@ export const employeesApi = createApi({
   }),
 });
 
-export const { useGetEmployeesQuery, useGetDepartmentsQuery } = employeesApi;
+export const {
+  useGetEmployeesQuery,
+  useGetDepartmentsQuery,
+  useAddEmployeeMutation,
+} = employeesApi;
