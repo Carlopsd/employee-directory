@@ -21,12 +21,17 @@ const columns = [
       const status = info.getValue();
       return (
         <span
-          className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
+          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${
             status === "active"
               ? "bg-green-100 text-green-700"
-              : "bg-gray-100 text-gray-600"
+              : "bg-red-100 text-red-700"
           }`}
         >
+          <span
+            className={`inline-block h-1.5 w-1.5 rounded-full ${
+              status === "active" ? "bg-green-500" : "bg-red-500"
+            }`}
+          />
           {status}
         </span>
       );
