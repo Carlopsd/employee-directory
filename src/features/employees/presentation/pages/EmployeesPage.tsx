@@ -1,7 +1,11 @@
 import { useGetEmployeesQuery } from "../../data/employeesApi.ts";
 import EmployeesTable from "../components/EmployeesTable.tsx";
 
-export default function EmployeesPage() {
+interface EmployeesPageProps {
+  onViewDetail?: (employeeId: number) => void;
+}
+
+export default function EmployeesPage({ onViewDetail }: EmployeesPageProps) {
   const { data: employees, isLoading, error } = useGetEmployeesQuery();
 
   if (isLoading) return <p className="p-8 text-gray-500">Loading employees…</p>;
@@ -10,7 +14,7 @@ export default function EmployeesPage() {
   return (
     <div className="p-8">
       <h1 className="mb-6 text-2xl font-bold">Employee Directory</h1>
-      <EmployeesTable employees={employees ?? []} />
+      <EmployeesTable employees={employees ?? []} onViewDetail={onViewDetail} />
     </div>
   );
 }

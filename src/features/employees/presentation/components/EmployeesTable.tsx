@@ -8,42 +8,62 @@ import type { Employee } from "../../domain/employee.types.ts";
 
 const columnHelper = createColumnHelper<Employee>();
 
-const columns = [
-  columnHelper.accessor((row) => `${row.firstName} ${row.lastName}`, {
-    id: "name",
-    header: "Name",
-  }),
-  columnHelper.accessor("position", { header: "Position" }),
-  columnHelper.accessor("department", { header: "Department" }),
-  columnHelper.accessor("status", {
-    header: "Status",
-    cell: (info) => {
-      const status = info.getValue();
-      return (
-        <span
-          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${
-            status === "active"
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
-        >
-          <span
-            className={`inline-block h-1.5 w-1.5 rounded-full ${
-              status === "active" ? "bg-green-500" : "bg-red-500"
-            }`}
-          />
-          {status}
-        </span>
-      );
-    },
-  }),
-];
-
 interface EmployeesTableProps {
   employees: Employee[];
+  onViewDetail?: (employeeId: number) => void;
 }
 
-export default function EmployeesTable({ employees }: EmployeesTableProps) {
+export default function EmployeesTable({
+  employees,
+  onViewDetail,
+}: EmployeesTableProps) {
+  const columns = [
+    columnHelper.accessor((row) => `${row.firstName} ${row.lastName}`, {
+      id: "name",
+      header: "Name",
+    }),
+    columnHelper.accessor("position", { header: "Position" }),
+    columnHelper.accessor("department", { header: "Department" }),
+    columnHelper.accessor("status", {
+      header: "Status",
+      cell: (info) => {
+        const status = info.getValue();
+        return (
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${
+              status === "active"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            <span
+              className={`inline-block h-1.5 w-1.5 rounded-full ${
+                status === "active" ? "bg-green-500" : "bg-red-500"
+              }`}
+            />
+            {status}
+          </span>
+        );
+      },
+    }),
+    ...(onViewDetail
+      ? [
+          columnHelper.display({
+            id: "actions",
+            header: "",
+            cell: (info) => (
+              <button
+                onClick={() => onViewDetail(info.row.original.id)}
+                className="text-sm font-medium text-blue-600 hover:text-blue-800"
+              >
+                View
+              </button>
+            ),
+          }),
+        ]
+      : []),
+  ];
+
   const table = useReactTable({
     data: employees,
     columns,
