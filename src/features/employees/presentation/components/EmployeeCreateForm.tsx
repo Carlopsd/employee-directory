@@ -52,7 +52,11 @@ export default function EmployeeCreateForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {successMessage && (
-        <div className="rounded-md bg-green-50 p-3 text-sm text-green-700">
+        <div
+          role="status"
+          aria-live="polite"
+          className="rounded-md bg-green-50 p-3 text-sm text-green-700"
+        >
           {successMessage}
         </div>
       )}
