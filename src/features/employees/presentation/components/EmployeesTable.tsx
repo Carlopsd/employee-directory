@@ -13,7 +13,7 @@ function StatusBadge({ status }: { status: Employee["status"] }) {
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-sm font-medium ${
-        isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+        isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
       }`}
     >
       <span
@@ -65,7 +65,7 @@ export default function EmployeesTable({
                   onViewDetail(info.row.original.id);
                 }}
                 aria-label={`View ${info.row.original.firstName} ${info.row.original.lastName}`}
-                className="rounded px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:outline-none"
+                className="rounded px-3 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:outline-none"
               >
                 View
               </button>
@@ -83,7 +83,7 @@ export default function EmployeesTable({
 
   if (employees.length === 0) {
     return (
-      <div className="rounded-lg border border-gray-200 p-8 text-center text-sm text-gray-500">
+      <div className="rounded-lg border border-gray-200 p-8 text-center text-sm text-gray-600">
         No employees found.
       </div>
     );
@@ -101,7 +101,7 @@ export default function EmployeesTable({
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-600 ${
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 ${
                     (header.column.columnDef.meta as { hideOnMobile?: boolean })
                       ?.hideOnMobile
                       ? "hidden sm:table-cell"
