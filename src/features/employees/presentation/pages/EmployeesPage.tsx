@@ -1,4 +1,8 @@
-import { useGetEmployeesQuery } from "../../data/employeesApi.ts";
+import { useMemo, useState } from "react";
+import {
+  useGetEmployeesQuery,
+  useGetDepartmentsQuery,
+} from "../../data/employeesApi.ts";
 import EmployeesTable from "../components/EmployeesTable.tsx";
 
 interface EmployeesPageProps {
@@ -11,6 +15,14 @@ export default function EmployeesPage({
   onAddEmployee,
 }: EmployeesPageProps) {
   const { data: employees, isLoading, error } = useGetEmployeesQuery();
+  const { data: departments } = useGetDepartmentsQuery();
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
+
+  const filteredEmployees = useMemo(() => {
+    if (!employees) return [];
+    if (selectedDepartment === "All") return employees;
+    return employees.filter((e) => e.department === selectedDepartment);
+  }, [employees, selectedDepartment]);
 
   if (isLoading)
     return (
@@ -31,7 +43,25 @@ export default function EmployeesPage({
           + Add Employee
         </button>
       </div>
-      <EmployeesTable employees={employees ?? []} onViewDetail={onViewDetail} />
+      <div className="mb-4">
+        <label htmlFor="department-filter" className="mr-2 text-sm font-medium text-gray-700">
+          Department
+        </label>
+        <select
+          id="department-filter"
+          value={selectedDepartment}
+          onChange={(e) => setSelectedDepartment(e.target.value)}
+          className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+        >
+          <option value="All">All</option>
+          {departments?.map((dept) => (
+            <option key={dept.id} value={dept.name}>
+              {dept.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <EmployeesTable employees={filteredEmployees} onViewDetail={onViewDetail} />
     </div>
   );
 }
